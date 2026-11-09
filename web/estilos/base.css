@@ -1,0 +1,255 @@
+@charset "UTF-8";
+
+/* Estilos Generales y Reset Básico */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(255, 255, 204);
+    /* Amarillo claro seguro (#FFFFCC) */
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.6;
+}
+
+#documento {
+    margin: 40px auto;
+    padding: 24px;
+    background-color: rgb(153, 204, 255);
+    /* Azul claro seguro (#99CCFF) */
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Cabecera (NUEVO COLOR SEGURO: Azul Marino Profundo) */
+header {
+    background-color: rgb(0, 51, 102);
+    /* Azul marino seguro (#003366) */
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+header .logo {
+    height: 90px;
+    /* Aumentado de 50px a 90px para que destaque */
+    width: auto;
+    /* Mantiene la proporción original sin deformar */
+    max-width: 200px;
+    /* Margen seguro por si el logo es muy horizontal */
+    object-fit: contain;
+    /* Garantiza que el logo se vea completo */
+    border-radius: 8px;
+    /* Mantiene el diseño circular */
+    background-color: rgba(255, 255, 255, 0.15);
+    /* Un sutil fondo blanco translúcido por si el logo es oscuro */
+    padding: 4px;
+    /* Pequeño espacio interno para que el logo respire dentro del círculo */
+    transition: transform 0.2s ease;
+}
+
+header .logo:hover {
+    transform: scale(1.05);
+}
+
+header #titulo {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    /* Texto blanco seguro (#FFFFFF) para contrastar con el azul marino */
+}
+
+/* Barra de Login */
+#barraLogin {
+    padding: 5px 0;
+    text-align: right;
+}
+
+/* Menús de Navegación */
+#barraMenu ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    gap: 10px;
+}
+
+#barraMenu li {
+    padding: 0;
+}
+
+#barraMenu a {
+    text-decoration: none;
+    color: rgb(0, 51, 102);
+    /* Texto azul marino seguro */
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#barraMenu a:hover {
+    background-color: rgb(255, 255, 255);
+    /* Fondo blanco seguro al pasar el ratón */
+    color: rgb(0, 102, 204);
+    /* Texto azul brillante seguro (#0066CC) */
+}
+
+/* Título de Ubicación */
+#documento h4 {
+    letter-spacing: 0.5px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+/* Barra de Ubicación (Breadcrumbs) */
+#barraUbi {
+    background-color: rgba(255, 255, 255, 0.25);
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#barraUbi a {
+    text-decoration: none;
+    color: rgb(0, 51, 153);
+    /* Azul clásico seguro (#003399) */
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+#barraUbi a:hover {
+    color: rgb(0, 0, 102);
+    /* Azul oscuro seguro (#000066) */
+    text-decoration: underline;
+}
+
+/* Botones genéricos (Optimizados con los nuevos tonos azules) */
+.boton {
+    display: inline-block;
+    background-color: rgb(0, 51, 153);
+    /* Azul seguro (#003399) */
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+}
+
+.boton a,
+.boton a:visited {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    /* Blanco seguro */
+    font-weight: bold;
+}
+
+.boton:hover,
+.boton a:hover {
+    background-color: rgb(0, 153, 255);
+    /* Azul cielo brillante seguro (#0099FF) */
+    color: rgb(255, 255, 255);
+}
+
+/* Tablas */
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla th {
+    background-color: rgb(0, 102, 153);
+    /* Azul verdoso seguro (#006699) */
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tabla td {
+    padding: 12px;
+}
+
+.tabla tr.par {
+    background-color: rgb(51, 51, 51);
+    /* Gris oscuro seguro (#333333) en lugar de negro puro */
+    color: white;
+}
+
+.tabla tr.impar {
+    background-color: #f8f9fa;
+}
+
+/* Formularios y Errores */
+.for_texto {
+    border: 1px solid rgb(0, 51, 153);
+    background-color: white;
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    outline: none;
+    width: 100%;
+}
+
+.error {
+    background-color: #fff5f5;
+    color: #e53e3e;
+    border: 1px solid #fed7d7;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+/* Enlaces sueltos en el contenido */
+#documento a:not([class]):not(#barraMenu a):not(#barraUbi a) {
+    color: rgb(0, 51, 153);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#documento a:not([class]):not(#barraMenu a):not(#barraUbi a):hover {
+    text-decoration: underline;
+}
+
+/* Pie de página */
+footer {
+    background-color: rgb(0, 51, 102);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+footer hr {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 auto 10px auto;
+}
+
+footer div {
+    font-size: 0.95em;
+    font-weight: bold;
+}

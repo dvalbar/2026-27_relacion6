@@ -14,7 +14,7 @@ else
 
 // Clases
 spl_autoload_register(function ($clase) {
-    $ruta = RUTABASE . "/scripts/clases/";
+    $ruta = RUTABASE . "/aplicacion/clases/curso2026"; // Ruta donde se ubican nuestras clases
     $fichero = $ruta . "$clase.php";
 
     if (file_exists($fichero)) {

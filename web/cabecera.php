@@ -14,7 +14,7 @@ else
 
 // Clases
 spl_autoload_register(function ($clase) {
-    $ruta = RUTABASE . "/aplicacion/clases/curso2026"; // Ruta donde se ubican nuestras clases
+    $ruta = RUTABASE . "/aplicacion/clases/curso2026/"; // Ruta donde se ubican nuestras clases
     $fichero = $ruta . "$clase.php";
 
     if (file_exists($fichero)) {
@@ -25,5 +25,6 @@ spl_autoload_register(function ($clase) {
 });
 
 include(RUTABASE . "/aplicacion/plantilla/plantilla.php");
+include_once(RUTABASE . "/scripts/librerias/validacion.php"); // Incluir libreria validacion.php
 
 //creo todos los objetos que necesita mi aplicación

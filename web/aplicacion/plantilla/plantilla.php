@@ -70,7 +70,7 @@ function inicioCuerpo(string $cabecera, array $barraUbi = []) // $barraUbi es un
 
             <div id="barraMenu">
                 <ul>
-                    <li><a href="/aplicacion/pruebas/index.php">A rellenar</a></li> <!-- Esto se añade a todas las paginas porque es la plantilla -->
+                    <li><a href="/aplicacion/principal/pruebas.php">Pruebas</a></li> <!-- Esto se añade a todas las paginas porque es la plantilla -->
                 </ul>
 
             </div>

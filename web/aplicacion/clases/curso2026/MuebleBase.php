@@ -3,19 +3,51 @@
 // Representa el número máximo de muebles que se pueden crear
 const MAXIMO_MUEBLES = 10;
 
-abstract class Mueblebase
+class MuebleBase // Quitar abstract y probarla
 {
     // Variable de clase privada mueblesCreados.
-    private static int $_mueblesCreados; // Número de muebles (instancias) creados hasta el momento.
+    private static int $_mueblesCreados = 0; // Número de muebles (instancias) creados hasta el momento.
 
     // Variables de instancia
-    private string $_nombre; // Nombre del mueble
-    private string $_fabricante; // Nombre del fabricante del mueble
-    private string $_pais; // Pais del mueble
-    private int $_anio; // Año de inicio de fabricación
-    private string $_fechaIniVenta; // Fecha de inicio de venta
-    private string $_fechaFinVenta; // Fecha de fin de venta
-    private float $_precio; // Precio del mueble
+    private string $_nombre; // Nombre del mueble (Obligatorio)
+    private string $_fabricante = "FaMu:"; // Nombre del fabricante del mueble
+    private string $_pais = "ESPAÑA"; // Pais del mueble
+    private int $_anio = 2020; // Año de inicio de fabricación
+    private string $_fechaIniVenta = "01/01/2020"; // Fecha de inicio de venta
+    private string $_fechaFinVenta = "31/12/2040"; // Fecha de fin de venta
+    private float $_precio = 30; // Precio del mueble
+
+    // Constructor. Recibe valores para las propiedades teniendo en cuenta los posibles
+    // valores por defecto, salvo el nombre que es obligatorio que se indique. Se deben asignar
+    // los valores en las propiedades llamando a los métodos set correspondientes. Si la función
+    // setNombre falla (devuelve false), se lanzará un error. Para cualquier otro campo, en
+    // caso de fallar el set, se asignará el valor por defecto. Además, si se ha superado el
+    // máximo de instancias creadas no se debe permitir la creación (lanzar excepción).
+
+    /**
+     * ===========
+     * Constructor
+     * ===========
+     */
+    public function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30)
+    {
+        if (!self::puedeCrear($limite)) {
+            throw new Exception("Limite de muebles alcanzado.");
+        }
+
+        if (!$this->setNombre($nombre)) {
+            throw new Exception("El nombre no es válido.");
+        }
+
+        $this->setFabricante($fabricante);
+        $this->setPais($pais);
+        $this->setAnio($anio);
+        $this->setFechaIniVenta($fechaIniVenta);
+        $this->setFechaFinVenta($fechaFinVenta);
+        $this->setPrecio($precio);
+
+        self::$_mueblesCreados++;
+    }
 
     /**
      * ===================
@@ -45,14 +77,15 @@ abstract class Mueblebase
     {
         $nombre = mb_strtoupper($nombre); // Pasamos nombre a mayúsculas
 
-        if (validaCadena($nombre, 40, "")) {
-            $this->_nombre = $nombre;
-            $resultado = true;
-        }
         if ($nombre === "") {
             $resultado = false;
         } else {
-            $resultado = false;
+            if (validaCadena($nombre, 40, "")) {
+                $this->_nombre = $nombre;
+                $resultado = true;
+            } else {
+                $resultado = false;
+            }
         }
         return $resultado;
     }
@@ -78,19 +111,22 @@ abstract class Mueblebase
      */
     public function setFabricante(string $fabricante): bool
     {
+        // Si no empieza por FaMu: se pone al principio de la cadena
+        if (mb_substr($fabricante, 0, 5) !== "FaMu:") {
+            $fabricante = "FaMu:" . $fabricante;
+        }
+
         if (validaCadena($fabricante, 30, "FaMu:")) {
-            if (!mb_substr($fabricante, 5) === "FaMu:") { // Si no empieza por FaMu: se lo ponemos
-                $this->_fabricante = "FaMu:" . $fabricante;
-                $resultado = true;
-            } else { // Si ya empieza no hacemos nada
-                $this->_fabricante = $fabricante;
-                $resultado = true;
-            }
+            $this->_fabricante = $fabricante;
+            $resultado = true;
         } else {
-            $resultado = false;
+            // Si la cadena > 30 se recorta
+            $this->_fabricante = mb_substr($fabricante, 0, 30);
+            $resultado = false; // Se recorta pero es un error
         }
         return $resultado;
     }
+
 
     /**
      * Devuelve el país de origen.
@@ -131,7 +167,8 @@ abstract class Mueblebase
         return $this->_anio;
     }
 
-    // Anio (entero, año de inicio de fabricación, valor entre 2020 y el año actual, por defecto 2020)
+    // Anio (entero, año de inicio de fabricación, valor entre 2020 y el 
+    // año actual, por defecto 2020)
 
     /**
      * Define el año de fabricación.
@@ -177,19 +214,18 @@ abstract class Mueblebase
     {
         $cadenaFechaAnioFabricacion = "01/01/" . $this->getAnio();
 
-        if (validaFecha($fechaIniVenta, "") && validaFecha($cadenaFechaAnioFabricacion, "")) {
-            $fechaAnioFabricacion = DateTime::createFromFormat('d/m/Y', "01/01/" . $this->getAnio());
+        if (validaFecha($fechaIniVenta, "")) {
+            $fechaAnioFabricacion = DateTime::createFromFormat('d/m/Y', $cadenaFechaAnioFabricacion);
             $fechaInicioVenta = DateTime::createFromFormat('d/m/Y', $fechaIniVenta);
 
-            if ($fechaInicioVenta >= $fechaAnioFabricacion) { // Si la fechaIniVenta es mayor al 01/01/AñoFabricacion
+            if ($fechaInicioVenta >= $fechaAnioFabricacion) {
                 $this->_fechaIniVenta = $fechaIniVenta;
                 $resultado = true;
             } else {
                 $this->_fechaIniVenta = $cadenaFechaAnioFabricacion;
                 $resultado = false;
             }
-        }
-        else {
+        } else {
             $this->_fechaIniVenta = $cadenaFechaAnioFabricacion;
             $resultado = false;
         }
@@ -217,7 +253,21 @@ abstract class Mueblebase
      */
     public function setFechaFinVenta(string $fechaFinVenta): bool
     {
-        $this->_fechaFinVenta = $fechaFinVenta; // TO-DO
+        if (validaFecha($fechaFinVenta, "")) {
+            $fechaInicioVenta = DateTime::createFromFormat('d/m/Y', $this->getFechaIniVenta());
+            $fechaFinalVenta =  DateTime::createFromFormat('d/m/Y', $fechaFinVenta);
+
+            // FechaFinVenta menor que fechaIniVenta
+            if ($fechaFinalVenta < $fechaInicioVenta) {
+                $resultado = false;
+            } else {
+                $this->_fechaFinVenta = $fechaFinVenta;
+                $resultado = true;
+            }
+        } else {
+            $resultado = false;
+        }
+        return $resultado;
     }
 
     /**
@@ -240,11 +290,11 @@ abstract class Mueblebase
      */
     public function setPrecio(float $precio): bool
     {
-        if (validaReal($precio, 30, $precio, 30)) {
+        if (validaReal($precio, 30, PHP_FLOAT_MAX, 30)) {
             $this->_precio = $precio;
-            $resultado = false;
-        } else {
             $resultado = true;
+        } else {
+            $resultado = false;
         }
         return $resultado;
     }
@@ -256,16 +306,16 @@ abstract class Mueblebase
     // Método damePropiedadesAdicionales. Será redefinido en las clases hijas y devolverá
     // un array con el nombre de las propiedades adicionales a la clase base. 
 
-    abstract function damePropiedadesAdicionales(): array; // Se redefine en las clases hijas
+    // abstract function damePropiedadesAdicionales(): array; // Se redefine en las clases hijas
 
     // Método de clase puedeCrear que devuelve true si se pueden crear más instancias de la
     // clase y false en caso contrario. Además, devuelve en el parámetro Número el número de
     // muebles que aún se pueden crear de la clase.
     static function puedeCrear(&$huecosDisponibles): bool
     {
-        $huecosDisponibles = MAXIMO_MUEBLES - Mueblebase::$_mueblesCreados;
+        $huecosDisponibles = MAXIMO_MUEBLES - MuebleBase::$_mueblesCreados;
 
-        if (Mueblebase::$_mueblesCreados >= MAXIMO_MUEBLES) {
+        if (MuebleBase::$_mueblesCreados >= MAXIMO_MUEBLES) {
             $resultado = false;
         } else {
             $resultado = true;
@@ -278,7 +328,9 @@ abstract class Mueblebase
     // vendido desde 99/99/9999 hasta 99/99/9999, precio 9999'
     public function __toString(): string
     {
-        return ""; // TO-DO
+        return "MUEBLE de clase " . get_class($this) . " con nombre " . $this->getNombre() . ", fabricante " . $this->getFabricante() .
+            ", fabricado en " . $this->getPais() . " a partir del año " . $this->getAnio() . ", vendido desde " . $this->getFechaIniVenta() .
+            " hasta " . $this->getFechaFinVenta() . ", precio " . $this->getPrecio();
     }
 
     // ==================================================================================================================

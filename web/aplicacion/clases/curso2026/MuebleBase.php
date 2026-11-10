@@ -1,6 +1,6 @@
 <?php
 
-abstract class MuebleBase // Quitar abstract y probarla
+abstract class MuebleBase
 {
     // Representa el número máximo de muebles que se pueden crear
     const MAXIMO_MUEBLES = 10;
@@ -118,12 +118,13 @@ abstract class MuebleBase // Quitar abstract y probarla
             $fabricante = "FaMu:" . $fabricante;
         }
 
+        $recortado = mb_substr($fabricante, 0, 30);
+
         if (validaCadena($fabricante, 30, "FaMu:")) {
             $this->_fabricante = $fabricante;
             $resultado = true;
         } else {
-            // Si la cadena > 30 se recorta
-            $this->_fabricante = mb_substr($fabricante, 0, 30);
+            $this->_fabricante = $recortado;
             $resultado = false; // Se recorta pero es un error
         }
         return $resultado;
@@ -356,7 +357,6 @@ abstract class MuebleBase // Quitar abstract y probarla
      * Lanza una excepción para evitar la sobrecarga de propiedades.
      *
      * @param string $name Nombre de la propiedad.
-     * @return mixed
      * @throws \Exception Siempre.
      * @return mixed No devuelve nada
      */

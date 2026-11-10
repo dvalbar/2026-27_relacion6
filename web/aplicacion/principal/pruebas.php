@@ -16,23 +16,60 @@ $barraUbi =
         ]
     ];
 
-// PRUEBAS MUEBLEBASE ABSTRACTA
+// PRUEBAS MUEBLEBASE
 
-$error = "";
+// Array donde guardar los muebles de prueba
+// $resultados = [];
 
-// $miMueble1 = new MuebleBase("David");
+// // Valores por defecto y todos los valores
+// $resultados[] = new MuebleBase("Sofá");
+// $resultados[] = new MuebleBase("Mesa", "Ikea", "Francia", 2022, "15/3/2022", "31/12/2030", 150.5);
 
+// // Valores incorrectos: deben quedar los de por defecto
+// $resultados[] = new MuebleBase("Silla", "", "aaaaaaaaaaaaaaaaaaa", 2010, "01/01/2015", "01/01/2010", 5);
+
+// // Set: true/false
+// $resultados[] = "setNombre('') -> " . var_export($resultados[0]->setNombre(""), true);
+// $resultados[] = "setPrecio(10) -> " . var_export($resultados[0]->setPrecio(10), true);
+
+// // Nombre vacío: debe lanzar excepción
 // try {
-//     $miMueble2 = new MuebleBase("Pepe");
+//     new MuebleBase("");
 // } catch (Exception $e) {
-//     $error = $e->getMessage();
+//     $resultados[] = "Error: " . $e->getMessage();
 // }
 
-$misMuebles = [
-    // "miMueble1" => $miMueble1,
-    // "miMueble2" => $miMueble2 ?? null,
-    "error" => $error
-];
+// // Propiedad dinámica: debe lanzar excepción
+// try {
+//     $resultados[0]->color = "rojo";
+// } catch (Exception $e) {
+//     $resultados[] = "Error: " . $e->getMessage();
+// }
+
+// // Límite de muebles: debe lanzar excepción al llegar a 10
+// try {
+//     while (true) {
+//         new MuebleBase("Relleno");
+//     }
+// } catch (Exception $e) {
+//     $resultados[] = "Error: " . $e->getMessage();
+// }
+
+// $misMuebles = ["resultados" => $resultados];
+
+// ==========================================================================================================================================
+// PRUEBAS MUEBLE_RECICLADO Y MUEBLE_TRADICIONAL
+
+$mueblesHijos[] = new MuebleReciclado("Banco", "Eco", "Italia", 2021, "01/06/2021", "31/12/2035", 80, 150);
+$mueblesHijos[] = new MuebleReciclado("Estante", porcentajeReciclado: 50);
+
+$mueblesHijos[] = new MuebleTradicional("Cómoda", peso: 500);
+$mueblesHijos[] = new MuebleTradicional("Baúl", peso: 100, serie: "S99");
+
+$mueblesHijos[] = "Propiedades: " . implode(", ", $mueblesHijos[0]->damePropiedadesAdicionales());
+$mueblesHijos[] = "Propiedades: " . implode(", ", $mueblesHijos[2]->damePropiedadesAdicionales());
+
+$misMuebles = ["mueblesHijos" => $mueblesHijos];
 
 //dibuja la plantilla de la vista
 inicioCabecera("TIENDA");
@@ -62,16 +99,18 @@ function cuerpo($misMuebles)
     <h3>Pruebas Relación 6.</h3>
 <?php
 
-    echo "<h4>Clase MuebleBase (Abstracta)</h4>" . PHP_EOL;
+    // echo "<h4>Clase MuebleBase (Abstracta)</h4>" . PHP_EOL;
 
-    echo $misMuebles["miMueble1"] . "<br>" . PHP_EOL;
+    // Pruebas MuebleBase
+    // foreach ($misMuebles["resultados"] as $value) {
+    //     echo $value . "<br><br>" . PHP_EOL;
+    // }
 
-    if ($misMuebles["miMueble2"] !== null) {
-        echo $misMuebles["miMueble2"] . "<br>" . PHP_EOL;
-    }
+    echo "<h4>Clase MuebleReciclado y MuebleTradicional</h4>" . PHP_EOL;
 
-    if ($misMuebles["error"] !== "") {
-        echo "<p>Error: " . $misMuebles["error"] . "</p>";
+    // Pruebas MuebleReciclado y MuebleTradicional
+    foreach ($misMuebles["mueblesHijos"] as $value) {
+        echo $value . "<br><br>" . PHP_EOL;
     }
 }
 

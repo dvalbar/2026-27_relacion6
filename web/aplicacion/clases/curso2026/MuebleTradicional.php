@@ -7,11 +7,11 @@ final class MuebleTradicional extends MuebleBase
     private float $_peso = 15;
     private string $_serie = "S01";
 
-    function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30)
+    function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30, float $peso = 15, string $serie = "S01")
     {
-        $this->_peso = $this->getPeso();
-        $this->_serie = $this->getSerie();
-        return parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio);
+        parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio);
+        $this->setPeso($peso);
+        $this->setSerie($serie);
     }
 
     /**
@@ -50,7 +50,7 @@ final class MuebleTradicional extends MuebleBase
     /**
      * Devuelve la serie del mueble tradicional.
      *
-     * @return float Devuelve la serie del mueble tradicional.
+     * @return string Devuelve la serie del mueble tradicional.
      */
     public function getSerie(): string
     {
@@ -67,7 +67,7 @@ final class MuebleTradicional extends MuebleBase
      */
     public function setSerie(string $serie): bool
     {
-        if (validaCadena($serie, 3, "S01")) {
+        if (validaCadena($serie, 1000, "S01")) {
             $this->_serie = $serie;
             $resultado = true;
         } else {
@@ -84,7 +84,7 @@ final class MuebleTradicional extends MuebleBase
     #[Override]
     function damePropiedadesAdicionales(): array
     {
-        $arrayProps = [$this->getPeso(), $this->getSerie()];
+        $arrayProps = ["Peso", "Serie"];
         return $arrayProps;
     }
 

@@ -9,10 +9,10 @@ final class MuebleReciclado extends MuebleBase
     /**
      * Constructor
      */
-    function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30, $porcentajeReciclado = 10)
+    function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30, int $porcentajeReciclado = 10)
     {
-        $this->$porcentajeReciclado = $this->setPorcentajeReciclado($porcentajeReciclado);
-        return parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio);
+        parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio);
+        $this->setPorcentajeReciclado($porcentajeReciclado);
     }
 
     /**
@@ -22,9 +22,9 @@ final class MuebleReciclado extends MuebleBase
     /**
      * Devuelve el porcentaje reciclado del mueble reciclado.
      *
-     * @return string Devuelve el porcentaje reciclado del mueble reciclado.
+     * @return int Devuelve el porcentaje reciclado del mueble reciclado.
      */
-    public function getPorcentajeReciclado(): string
+    public function getPorcentajeReciclado(): int
     {
         return $this->_porcentajeReciclado;
     }
@@ -56,7 +56,7 @@ final class MuebleReciclado extends MuebleBase
     #[Override]
     function damePropiedadesAdicionales(): array
     {
-        $arrayProps = [$this->getPorcentajeReciclado()];
+        $arrayProps = ["PorcentajeReciclado"];
         return $arrayProps;
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-// Representa el número máximo de muebles que se pueden crear
-const MAXIMO_MUEBLES = 10;
-
-class MuebleBase // Quitar abstract y probarla
+abstract class MuebleBase // Quitar abstract y probarla
 {
+    // Representa el número máximo de muebles que se pueden crear
+    const MAXIMO_MUEBLES = 10;
+
     // Variable de clase privada mueblesCreados.
     private static int $_mueblesCreados = 0; // Número de muebles (instancias) creados hasta el momento.
 
@@ -31,6 +31,8 @@ class MuebleBase // Quitar abstract y probarla
      */
     public function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30)
     {
+        $limite = 0;
+
         if (!self::puedeCrear($limite)) {
             throw new Exception("Limite de muebles alcanzado.");
         }
@@ -126,7 +128,6 @@ class MuebleBase // Quitar abstract y probarla
         }
         return $resultado;
     }
-
 
     /**
      * Devuelve el país de origen.
@@ -306,16 +307,16 @@ class MuebleBase // Quitar abstract y probarla
     // Método damePropiedadesAdicionales. Será redefinido en las clases hijas y devolverá
     // un array con el nombre de las propiedades adicionales a la clase base. 
 
-    // abstract function damePropiedadesAdicionales(): array; // Se redefine en las clases hijas
+    abstract function damePropiedadesAdicionales(): array; // Se redefine en las clases hijas
 
     // Método de clase puedeCrear que devuelve true si se pueden crear más instancias de la
     // clase y false en caso contrario. Además, devuelve en el parámetro Número el número de
     // muebles que aún se pueden crear de la clase.
-    static function puedeCrear(&$huecosDisponibles): bool
+    static function puedeCrear(&$numero): bool
     {
-        $huecosDisponibles = MAXIMO_MUEBLES - MuebleBase::$_mueblesCreados;
+        $numero = self::MAXIMO_MUEBLES - self::$_mueblesCreados;
 
-        if (MuebleBase::$_mueblesCreados >= MAXIMO_MUEBLES) {
+        if (MuebleBase::$_mueblesCreados >= self::MAXIMO_MUEBLES) {
             $resultado = false;
         } else {
             $resultado = true;

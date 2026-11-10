@@ -16,14 +16,30 @@ $barraUbi =
         ]
     ];
 
-$miMueble = new MuebleBase("David");
+// PRUEBAS MUEBLEBASE ABSTRACTA
+
+$error = "";
+
+// $miMueble1 = new MuebleBase("David");
+
+// try {
+//     $miMueble2 = new MuebleBase("Pepe");
+// } catch (Exception $e) {
+//     $error = $e->getMessage();
+// }
+
+$misMuebles = [
+    // "miMueble1" => $miMueble1,
+    // "miMueble2" => $miMueble2 ?? null,
+    "error" => $error
+];
 
 //dibuja la plantilla de la vista
 inicioCabecera("TIENDA");
 cabecera();
 finCabecera();
 inicioCuerpo("TIENDA", $barraUbi);
-cuerpo($miMueble);  //llamo a la vista
+cuerpo($misMuebles);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -39,7 +55,7 @@ function cabecera()
 }
 
 //vista
-function cuerpo($miMueble)
+function cuerpo($misMuebles)
 {
 ?>
     <br>
@@ -48,9 +64,15 @@ function cuerpo($miMueble)
 
     echo "<h4>Clase MuebleBase (Abstracta)</h4>" . PHP_EOL;
 
-    echo $miMueble . PHP_EOL;
+    echo $misMuebles["miMueble1"] . "<br>" . PHP_EOL;
 
-    // Seguir haciendo pruebas TO-DO
+    if ($misMuebles["miMueble2"] !== null) {
+        echo $misMuebles["miMueble2"] . "<br>" . PHP_EOL;
+    }
+
+    if ($misMuebles["error"] !== "") {
+        echo "<p>Error: " . $misMuebles["error"] . "</p>";
+    }
 }
 
 // Aqui escribiremos las funciones

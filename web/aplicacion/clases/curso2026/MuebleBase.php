@@ -331,7 +331,7 @@ abstract class MuebleBase // Quitar abstract y probarla
     {
         return "MUEBLE de clase " . get_class($this) . " con nombre " . $this->getNombre() . ", fabricante " . $this->getFabricante() .
             ", fabricado en " . $this->getPais() . " a partir del año " . $this->getAnio() . ", vendido desde " . $this->getFechaIniVenta() .
-            " hasta " . $this->getFechaFinVenta() . ", precio " . $this->getPrecio();
+            " hasta " . $this->getFechaFinVenta() . ", precio " . $this->getPrecio() . ". ";
     }
 
     // ==================================================================================================================

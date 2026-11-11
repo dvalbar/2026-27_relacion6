@@ -21,7 +21,7 @@ inicioCabecera("TIENDA");
 cabecera();
 finCabecera();
 inicioCuerpo("TIENDA", $barraUbi);
-cuerpo();  //llamo a la vista
+cuerpo($mueblesTienda);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -37,13 +37,53 @@ function cabecera()
 }
 
 //vista
-function cuerpo()
+function cuerpo($mueblesTienda)
 {
 ?>
     <br>
     <h3>Tienda Relación 6.</h3>
 <?php
 
+    tabla($mueblesTienda);
 }
 
 // Aqui escribiremos las funciones
+
+/**
+ * Función que muestra la tabla de muebles
+ *
+ * @param array $muebles
+ * @return void
+ */
+function tabla(array $muebles): void
+{
+?>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Índice</th>
+                <th>Tipo</th>
+                <th>Nombre</th>
+                <th>Fabricante</th>
+                <th>País</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($muebles as $key => $mueble) {
+                $tipo = get_class($mueble);
+                echo "<tr>";
+                echo "<td>" . $key . "</td>";
+                echo "<td>" . $tipo . "</td>";
+                echo "<td>" . $mueble->getNombre() . "</td>";
+                echo "<td>" . $mueble->getFabricante() . "</td>";
+                echo "<td>" . $mueble->getPais() . "</td>";
+                echo "<td>" . $mueble->getPrecio() . " €</td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+<?php
+}

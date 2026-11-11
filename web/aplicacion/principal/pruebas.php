@@ -60,31 +60,72 @@ $barraUbi =
 // ==========================================================================================================================================
 // PRUEBAS MUEBLE_RECICLADO Y MUEBLE_TRADICIONAL
 
-$mueblesHijos[] = new MuebleReciclado("Banco", "Eco", "Italia", 2021, "01/06/2021", "31/12/2035", 80, 150);
-$mueblesHijos[] = new MuebleReciclado("Estante", porcentajeReciclado: 50);
+$muebles = [
+    new MuebleReciclado("Banco", "Eco", "Italia", 2021, "01/06/2021", "31/12/2035", 80.58, 150),
+    new MuebleReciclado("Estante", porcentajeReciclado: 50),
+    new MuebleTradicional("Cómoda", peso: 500),
+    new MuebleTradicional("Baúl", peso: 100, serie: "S99")
+];
 
-$mueblesHijos[] = new MuebleTradicional("Cómoda", peso: 500);
-$mueblesHijos[] = new MuebleTradicional("Baúl", peso: 100, serie: "S99");
-
-$mueblesHijos[] = "Propiedades: " . implode(", ", $mueblesHijos[0]->damePropiedadesAdicionales());
-$mueblesHijos[] = "Propiedades: " . implode(", ", $mueblesHijos[2]->damePropiedadesAdicionales());
-
-$misMuebles = ["mueblesHijos" => $mueblesHijos];
+$propiedades = [
+    "Propiedades de MuebleReciclado: " . implode(", ", $muebles[0]->damePropiedadesAdicionales()),
+    "Propiedades de MuebleTradicional: " . implode(", ", $muebles[2]->damePropiedadesAdicionales())
+];
 
 // ==========================================================================================================================================
 // PRUEBAS CARACTERISTICAS
 
+// Objeto normal (sin cerrar) para probar get, foreach y toString
 $caracteristicas = new Caracteristicas();
-
 $caracteristicas->color = "rojo";
 $caracteristicas->precio = 300;
+$caracteristicas->saliente = true;
+
+// Característica que no existe: debe lanzar excepción
+$errorInventada = "";
+try {
+    echo $caracteristicas->inventada;
+} catch (Exception $e) {
+    $errorInventada = $e->getMessage();
+}
+
+// ==========================================================================================================================================
+// PRUEBAS ULTIMA
+
+$cerradas = new Caracteristicas();
+$cerradas->color = "rojo";
+$cerradas->ULTIMA = "fin";   // Aquí se cierra la lista
+$cerradas->color = "azul";   // Modificar una existente: debe dejar
+
+$erroresUltima = [];
+
+try {
+    $cerradas->nueva = 1;    // Nueva caracteristica con la lista cerrada: debe lanzar excepción
+} catch (Exception $e) {
+    $erroresUltima[] = $e->getMessage();
+}
+
+try {
+    $cerradas->ultima = "x"; // En minúsculas es una nueva: también debe lanzar excepción
+} catch (Exception $e) {
+    $erroresUltima[] = $e->getMessage();
+}
+
+$pruebas = [
+    "muebles" => $muebles,
+    "propiedades" => $propiedades,
+    "caracteristicas" => $caracteristicas,
+    "errorInventada" => $errorInventada,
+    "cerradas" => $cerradas,
+    "erroresUltima" => $erroresUltima
+];
 
 //dibuja la plantilla de la vista
 inicioCabecera("TIENDA");
 cabecera();
 finCabecera();
 inicioCuerpo("TIENDA", $barraUbi);
-cuerpo($misMuebles, $caracteristicas);  //llamo a la vista
+cuerpo($pruebas);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -100,7 +141,7 @@ function cabecera()
 }
 
 //vista
-function cuerpo($misMuebles, $caracteristicas)
+function cuerpo($pruebas)
 {
 ?>
     <br>
@@ -116,23 +157,39 @@ function cuerpo($misMuebles, $caracteristicas)
 
     echo "<h4>Clase MuebleReciclado y MuebleTradicional</h4>" . PHP_EOL;
 
-    // Pruebas MuebleReciclado y MuebleTradicional
-    foreach ($misMuebles["mueblesHijos"] as $value) {
-        echo $value . "<br><br>" . PHP_EOL;
+    foreach ($pruebas["muebles"] as $mueble) {
+        echo $mueble . "<br><br>" . PHP_EOL;
+    }
+
+    foreach ($pruebas["propiedades"] as $linea) {
+        echo $linea . "<br>" . PHP_EOL;
     }
 
     echo "<h4>Clase Caracteristicas</h4>" . PHP_EOL;
 
-    echo $caracteristicas->color . "<br>" . PHP_EOL;
-    echo $caracteristicas->precio . "<br>" . PHP_EOL;
+    echo $pruebas["caracteristicas"]->color . "<br>" . PHP_EOL;
+    echo $pruebas["caracteristicas"]->precio . "<br>" . PHP_EOL;
+    echo "Error: " . $pruebas["errorInventada"] . "<br>" . PHP_EOL;
 
-    try {
-        echo $caracteristicas->inventada;
-    } catch (Exception $e) {
-        echo $e->getMessage() . "<br>" . PHP_EOL;
+    echo "<b>foreach:</b><br>" . PHP_EOL;
+    foreach ($pruebas["caracteristicas"] as $nombre => $valor) {
+        echo $nombre . ": " . $valor . "<br>" . PHP_EOL;
     }
 
-    echo $caracteristicas . "<br>" . PHP_EOL;
+    echo "<b>foreach otra vez:</b><br>" . PHP_EOL;
+    foreach ($pruebas["caracteristicas"] as $nombre => $valor) {
+        echo $nombre . ": " . $valor . "<br>" . PHP_EOL;
+    }
+
+    echo "<br>" . $pruebas["caracteristicas"] . "<br>" . PHP_EOL;
+
+    echo "<h4>Característica ULTIMA</h4>" . PHP_EOL;
+
+    echo $pruebas["cerradas"] . "<br>" . PHP_EOL;
+
+    foreach ($pruebas["erroresUltima"] as $error) {
+        echo "Error: " . $error . "<br>" . PHP_EOL;
+    }
 }
 
 // Aqui escribiremos las funciones

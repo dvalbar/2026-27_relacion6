@@ -33,3 +33,28 @@ require_once(RUTABASE . "/scripts/librerias/validacion.php"); // Incluir libreri
 // a definir un array indexado (posiciones a partir de 1) con 5 muebles
 // (MuebleReciclado/MuebleTradicional). Cada mueble tendrá al menos dos características adicionales
 // a las básicas. Definir este array en un único punto de forma que esté accesible en todas las páginas.
+
+// Muebles de la tienda
+$mueble1 = new MuebleReciclado("Silla", "FaMu:Antequera", "España", 2026, "01/01/2026", "31/12/2035", 39.99, 20);
+$mueble1->anadirCaracteristicas("color", "verde", "patas", 4);
+
+$mueble2 = new MuebleReciclado("Mesa", "FaMu:Eco", "Portugal", 2023, "15/03/2023", "31/12/2034", 120, 65);
+$mueble2->anadirCaracteristicas("material", "palet", "extensible", true);
+
+$mueble3 = new MuebleTradicional("Sofá", "FaMu:Pisa", "Italia", 2021, "01/06/2021", "31/12/2040", 450.5, 80, "S02");
+$mueble3->anadirCaracteristicas("plazas", 3, "tapizado", "terciopelo");
+
+$mueble4 = new MuebleTradicional("Estantería", "FaMu:GrupoSeys", "España", 2022, "01/01/2022", "31/12/2038", 95, 35.5, "S15");
+$mueble4->anadirCaracteristicas("baldas", 5, "color", "roble");
+
+$mueble5 = new MuebleTradicional("Armario", "Eiffel", "Francia", 2020, "01/03/2020", "31/12/2040", 280, 150, "S07");
+$mueble5->anadirCaracteristicas("puertas", 3, "espejo", true, "color", "blanco");
+
+// Array indexado con posiciones a partir de 1
+$mueblesTienda = [
+    1 => $mueble1,
+    2 => $mueble2,
+    3 => $mueble3,
+    4 => $mueble4,
+    5 => $mueble5
+];

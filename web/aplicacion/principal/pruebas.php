@@ -71,12 +71,20 @@ $mueblesHijos[] = "Propiedades: " . implode(", ", $mueblesHijos[2]->damePropieda
 
 $misMuebles = ["mueblesHijos" => $mueblesHijos];
 
+// ==========================================================================================================================================
+// PRUEBAS CARACTERISTICAS
+
+$caracteristicas = new Caracteristicas();
+
+$caracteristicas->color = "rojo";
+$caracteristicas->precio = 300;
+
 //dibuja la plantilla de la vista
 inicioCabecera("TIENDA");
 cabecera();
 finCabecera();
 inicioCuerpo("TIENDA", $barraUbi);
-cuerpo($misMuebles);  //llamo a la vista
+cuerpo($misMuebles, $caracteristicas);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -92,7 +100,7 @@ function cabecera()
 }
 
 //vista
-function cuerpo($misMuebles)
+function cuerpo($misMuebles, $caracteristicas)
 {
 ?>
     <br>
@@ -112,6 +120,19 @@ function cuerpo($misMuebles)
     foreach ($misMuebles["mueblesHijos"] as $value) {
         echo $value . "<br><br>" . PHP_EOL;
     }
+
+    echo "<h4>Clase Caracteristicas</h4>" . PHP_EOL;
+
+    echo $caracteristicas->color . "<br>" . PHP_EOL;
+    echo $caracteristicas->precio . "<br>" . PHP_EOL;
+
+    try {
+        echo $caracteristicas->inventada;
+    } catch (Exception $e) {
+        echo $e->getMessage() . "<br>" . PHP_EOL;
+    }
+
+    echo $caracteristicas . "<br>" . PHP_EOL;
 }
 
 // Aqui escribiremos las funciones

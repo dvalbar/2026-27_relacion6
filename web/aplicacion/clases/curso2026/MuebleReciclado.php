@@ -56,7 +56,7 @@ final class MuebleReciclado extends MuebleBase
     #[Override]
     function damePropiedadesAdicionales(): array
     {
-        $arrayProps = ["PorcentajeReciclado"];
+        $arrayProps = ["PorcentajeReciclado"]; // Preguntar a Vicente si este método es para el __toString
         return $arrayProps;
     }
 

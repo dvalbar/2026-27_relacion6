@@ -28,3 +28,8 @@ include(RUTABASE . "/aplicacion/plantilla/plantilla.php");
 require_once(RUTABASE . "/scripts/librerias/validacion.php"); // Incluir libreria validacion.php
 
 // Creo todos los objetos que necesita mi aplicación
+
+// Ya que no hemos visto todavía ningún método para almacenar datos de forma permanente, vamos
+// a definir un array indexado (posiciones a partir de 1) con 5 muebles
+// (MuebleReciclado/MuebleTradicional). Cada mueble tendrá al menos dos características adicionales
+// a las básicas. Definir este array en un único punto de forma que esté accesible en todas las páginas.

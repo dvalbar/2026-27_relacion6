@@ -17,6 +17,9 @@ abstract class MuebleBase
     private string $_fechaFinVenta = "31/12/2040"; // Fecha de fin de venta
     private float $_precio = 30; // Precio del mueble
 
+    // Definir una propiedad privada de tipo Caracteristicas.
+    private Caracteristicas $_caracteristicas;
+
     // Constructor. Recibe valores para las propiedades teniendo en cuenta los posibles
     // valores por defecto, salvo el nombre que es obligatorio que se indique. Se deben asignar
     // los valores en las propiedades llamando a los métodos set correspondientes. Si la función
@@ -47,6 +50,8 @@ abstract class MuebleBase
         $this->setFechaIniVenta($fechaIniVenta);
         $this->setFechaFinVenta($fechaFinVenta);
         $this->setPrecio($precio);
+
+        $this->_caracteristicas = new Caracteristicas();
 
         self::$_mueblesCreados++;
     }
@@ -325,18 +330,73 @@ abstract class MuebleBase
         return $resultado;
     }
 
+    // Método anadirCaracteristicas que recibirá pares de argumentos en la forma (string
+    // carac, mixed valor) que se corresponden con el nombre de la característica y el valor de
+    // la misma y que añadirá la característica a la propiedad privada.
+    // (pueden indicarse 2, 4, 6 … parámetros, si se indica un número impar se desecha el ultimo parámetro).
+
+    // Ejemplo, anadirCaracteristicas(‘saliente’, true, ‘precio’, 300).
+
+    /**
+     * Añade características al mueble recibiendo pares (nombre, valor).
+     * Si se indica un número impar de parámetros, se descarta el último.
+     *
+     * @param string $carac Nombre de la primera característica
+     * @param mixed $valor Valor de la primera característica
+     * @param mixed ...$resto Más pares nombre, valor
+     * 
+     * @return void No devuelve nada
+     * @throws Exception Si la lista de características está cerrada con ULTIMA
+     */
+    public function anadirCaracteristicas(string $carac, mixed $valor, ...$resto): void
+    {
+        $this->_caracteristicas->$carac = $valor;
+
+        if (!empty($resto)) {
+            if (count($resto) % 2 === 0) { // Si la longitud del array es par -> las caracteristicas van en grupos pares (2, 4, 6, ...)
+                for ($i = 0; $i < count($resto); $i += 2) {
+                    $nombre = $resto[$i];
+                    $val = $resto[$i + 1];
+                    $this->_caracteristicas->$nombre = $val;
+                }
+            } else { // Falta un parametro (le quito 1 a la longitud del array para descartar el ultimo parámetro)
+                for ($i = 0; $i < count($resto) - 1; $i += 2) {
+                    $nombre = $resto[$i];
+                    $val = $resto[$i + 1];
+                    $this->_caracteristicas->$nombre = $val;
+                }
+            }
+        }
+    }
+
+    // Se tendrá en método getCaracteristicas que devolverá las características asignadas al mueble (como objeto)
+
+    /**
+     * Devuelve las características del mueble.
+     *
+     * @return Caracteristicas Devuelve el objeto con las características
+     */
+    public function getCaracteristicas(): Caracteristicas
+    {
+        return $this->_caracteristicas;
+    }
+
     // Método que al convertir la instancia en cadena nos devuelve 'MUEBLE de clase
     // XXX con nombre XXX, fabricante XXX, fabricado en XXX a partir del año 999,
     // vendido desde 99/99/9999 hasta 99/99/9999, precio 9999'
+
+    // Al convertirse la instancia de mueble en cadena deben mostrarse las características.
+
     public function __toString(): string
     {
         return "MUEBLE de clase " . get_class($this) . " con nombre " . $this->getNombre() . ", fabricante " . $this->getFabricante() .
             ", fabricado en " . $this->getPais() . " a partir del año " . $this->getAnio() . ", vendido desde " . $this->getFechaIniVenta() .
-            " hasta " . $this->getFechaFinVenta() . ", precio " . $this->getPrecio() . ". ";
+            " hasta " . $this->getFechaFinVenta() . ", precio " . $this->getPrecio() . ". Caracteristicas adicionales: " . $this->getCaracteristicas() . ". ";
     }
 
-    // ==================================================================================================================
+    // ===========================================================
     // Esta clase no permite la sobrecarga dinámica de propiedades
+    // ===========================================================
 
     /**
      * Se ejecuta al escribir en una propiedad inaccesible o inexistente.

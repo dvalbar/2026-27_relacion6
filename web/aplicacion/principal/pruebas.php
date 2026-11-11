@@ -111,13 +111,31 @@ try {
     $erroresUltima[] = $e->getMessage();
 }
 
+// ==========================================================================================================================================
+// PRUEBAS CARACTERISTICAS EN MUEBLE
+
+$muebleCar = new MuebleReciclado("Sofá");
+$muebleCar->anadirCaracteristicas('saliente', true, 'precio', 300);
+$muebleCar->anadirCaracteristicas('color', 'rojo', 'sobrante'); // 'sobrante' se descarta
+
+$erroresMueble = [];
+try {
+    $muebleCar->anadirCaracteristicas('ULTIMA', 'fin');
+    $muebleCar->anadirCaracteristicas('nueva', 1); // lista cerrada: excepción
+} catch (Exception $e) {
+    $erroresMueble[] = $e->getMessage();
+}
+$muebleCar->anadirCaracteristicas('color', 'azul'); // existente: se puede modificar
+
 $pruebas = [
     "muebles" => $muebles,
     "propiedades" => $propiedades,
     "caracteristicas" => $caracteristicas,
     "errorInventada" => $errorInventada,
     "cerradas" => $cerradas,
-    "erroresUltima" => $erroresUltima
+    "erroresUltima" => $erroresUltima,
+    "muebleCar" => $muebleCar,
+    "erroresMueble" => $erroresMueble
 ];
 
 //dibuja la plantilla de la vista
@@ -188,6 +206,18 @@ function cuerpo($pruebas)
     echo $pruebas["cerradas"] . "<br>" . PHP_EOL;
 
     foreach ($pruebas["erroresUltima"] as $error) {
+        echo "Error: " . $error . "<br>" . PHP_EOL;
+    }
+
+    echo "<h4>Clase MuebleBase (Modificación)</h4>" . PHP_EOL;
+
+    echo $pruebas["muebleCar"] . "<br>" . PHP_EOL;
+
+    foreach ($pruebas["muebleCar"]->getCaracteristicas() as $nombre => $valor) {
+        echo $nombre . ": " . $valor . "<br>" . PHP_EOL;
+    }
+
+    foreach ($pruebas["erroresMueble"] as $error) {
         echo "Error: " . $error . "<br>" . PHP_EOL;
     }
 }

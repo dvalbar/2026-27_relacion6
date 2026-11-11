@@ -84,7 +84,7 @@ final class MuebleTradicional extends MuebleBase
     #[Override]
     function damePropiedadesAdicionales(): array
     {
-        $arrayProps = ["Peso", "Serie"];
+        $arrayProps = ["Peso", "Serie"]; // Preguntar a Vicente si este método es para el __toString
         return $arrayProps;
     }
 

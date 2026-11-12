@@ -44,7 +44,9 @@ function cuerpo($mueblesTienda)
     <h3>Tienda Relación 6.</h3>
 <?php
 
-    tabla($mueblesTienda);
+    tabla($mueblesTienda); // Mostrar tabla de muebles
+
+    formulario($mueblesTienda); // Mostrar formulario muebles
 }
 
 // Aqui escribiremos las funciones
@@ -53,7 +55,8 @@ function cuerpo($mueblesTienda)
  * Función que muestra la tabla de muebles
  *
  * @param array $muebles
- * @return void
+ * 
+ * @return void No devuelve nada
  */
 function tabla(array $muebles): void
 {
@@ -85,5 +88,26 @@ function tabla(array $muebles): void
             ?>
         </tbody>
     </table>
+<?php
+}
+
+/**
+ * Función que muestra el formulario de muebles
+ *
+ * @param array $muebles
+ * 
+ * @return void No devuelve nada
+ */
+function formulario(array $muebles): void
+{
+    // Un solo formulario con dos botones de envío (Mostrar Mueble y Modificar Mueble) y
+    // un elemento para seleccionar el mueble sobre el que trabajar. Se usará un select
+    // mostrando datos del mueble y como valor se tendrá el índice en el array.
+
+?>
+    <form action="" method="POST">
+        <button type="submit" name="mostrar">Mostrar Mueble</button>
+        <button type="submit" name="modificar">Modificar Mueble</button>
+    </form>
 <?php
 }

@@ -36,19 +36,19 @@ require_once(RUTABASE . "/scripts/librerias/validacion.php"); // Incluir libreri
 
 // Muebles de la tienda
 $mueble1 = new MuebleReciclado("Silla", "FaMu:Antequera", "España", 2026, "01/01/2026", "31/12/2035", 39.99, 20);
-$mueble1->anadirCaracteristicas("color", "verde", "patas", 4);
+$mueble1->anadirCaracteristicas("Color", "Verde", "Patas", 4);
 
 $mueble2 = new MuebleReciclado("Mesa", "FaMu:Eco", "Portugal", 2023, "15/03/2023", "31/12/2034", 120, 65);
-$mueble2->anadirCaracteristicas("material", "palet", "extensible", true);
+$mueble2->anadirCaracteristicas("Material", "Palet", "Extensible", true);
 
 $mueble3 = new MuebleTradicional("Sofá", "FaMu:Pisa", "Italia", 2021, "01/06/2021", "31/12/2040", 450.5, 80, "S02");
-$mueble3->anadirCaracteristicas("plazas", 3, "tapizado", "terciopelo");
+$mueble3->anadirCaracteristicas("Plazas", 3, "Tapizado", "Terciopelo", "RellenoAsiento");
 
 $mueble4 = new MuebleTradicional("Estantería", "FaMu:GrupoSeys", "España", 2022, "01/01/2022", "31/12/2038", 95, 35.5, "S15");
-$mueble4->anadirCaracteristicas("baldas", 5, "color", "roble");
+$mueble4->anadirCaracteristicas("Baldas", 5, "Color", "Roble");
 
 $mueble5 = new MuebleTradicional("Armario", "Eiffel", "Francia", 2020, "01/03/2020", "31/12/2040", 280, 150, "S07");
-$mueble5->anadirCaracteristicas("puertas", 3, "espejo", true, "color", "blanco");
+$mueble5->anadirCaracteristicas("Puertas", 3, "Espejo", true, "Color", "Blanco");
 
 // Array indexado con posiciones a partir de 1
 $mueblesTienda = [

@@ -16,12 +16,51 @@ $barraUbi =
         ]
     ];
 
+$arrayDatos = [];
+
+// Botón Mostrar Mueble
+
+// Al pulsar el botón del formulario Mostrar Mueble mostrará todas las propiedades del
+// mueble seleccionado y sus características a continuación del formulario anterior
+// (propiedades de MuebleBase y propiedades adicionales –las sabe a partir del método
+// apropiado-) en diferentes líneas. No se usará el convertir instancia en cadena.
+
+if (isset($_POST["mostrar"])) {
+
+    if (isset($_POST["mueblesForm"])) {
+        $muebleSeleccionado = $mueblesTienda[$_POST["mueblesForm"]];
+
+        $arrayDatos["Nombre"] = $muebleSeleccionado->getNombre();
+        $arrayDatos["Fabricante"] = $muebleSeleccionado->getFabricante();
+        $arrayDatos["Pais"] = $muebleSeleccionado->getPais();
+        $arrayDatos["Año"] = $muebleSeleccionado->getAnio();
+        $arrayDatos["FechaIniVenta"] = $muebleSeleccionado->getFechaIniVenta();
+        $arrayDatos["FechaFinVenta"] = $muebleSeleccionado->getFechaFinVenta();
+        $arrayDatos["Precio"] = $muebleSeleccionado->getPrecio();
+
+        foreach ($muebleSeleccionado->damePropiedadesAdicionales() as $value) {
+            $arrayDatos[$value] = $muebleSeleccionado->{"get" . $value}();
+        }
+
+        foreach ($muebleSeleccionado->getCaracteristicas() as $key => $value) {
+            $arrayDatos[$key] = $value;
+        }
+    }
+}
+
+// Botón Modificar Mueble
+if (isset($_POST["modificar"])) {
+
+    if (isset($_POST["mueblesForm"])) {
+    }
+}
+
 //dibuja la plantilla de la vista
 inicioCabecera("TIENDA");
 cabecera();
 finCabecera();
 inicioCuerpo("TIENDA", $barraUbi);
-cuerpo($mueblesTienda);  //llamo a la vista
+cuerpo($mueblesTienda, $arrayDatos);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -37,16 +76,23 @@ function cabecera()
 }
 
 //vista
-function cuerpo($mueblesTienda)
+function cuerpo($mueblesTienda, $arrayDatos)
 {
 ?>
     <br>
     <h3>Tienda Relación 6.</h3>
-<?php
+    <?php
 
     tabla($mueblesTienda); // Mostrar tabla de muebles
 
     formulario($mueblesTienda); // Mostrar formulario muebles
+
+    echo "<br>" . PHP_EOL;
+
+    // Mostrar Muebles
+    foreach ($arrayDatos as $key => $value) {
+        echo $key . ": " . $value . "<br>" . PHP_EOL;
+    }
 }
 
 // Aqui escribiremos las funciones
@@ -60,7 +106,7 @@ function cuerpo($mueblesTienda)
  */
 function tabla(array $muebles): void
 {
-?>
+    ?>
     <table border="1">
         <thead>
             <tr>
@@ -106,6 +152,15 @@ function formulario(array $muebles): void
 
 ?>
     <form action="" method="POST">
+        <select name="mueblesForm" id="mueblesForm">
+            <?php
+            foreach ($muebles as $key => $mueble) {
+                $nombreMueble = $mueble->getNombre();
+                $tipoMueble = get_class($mueble);
+                echo "<option value='$key'>$key - $nombreMueble ($tipoMueble)</option>";
+            }
+            ?>
+        </select>
         <button type="submit" name="mostrar">Mostrar Mueble</button>
         <button type="submit" name="modificar">Modificar Mueble</button>
     </form>

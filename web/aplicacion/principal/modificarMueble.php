@@ -9,7 +9,7 @@ $barraUbi =
         ],
         [
             "nombre" => "Principal",
-            "enlace" => "/aplicacion/principal/index.php"
+            "enlace" => "/index.php"
         ],
         [
             "nombre" => "Modificar Mueble",
@@ -18,6 +18,9 @@ $barraUbi =
 
 // Array con los datos modificados del mueble
 $arrayDatosModificados = [];
+
+// Array con los errores del formulario
+$arrayErroresMuebleModificado = [];
 
 // Por si alguien entra si pasar antes por el formulario
 $muebleSeleccionado = null;
@@ -33,15 +36,110 @@ if (isset($_GET['indice']) && isset($mueblesTienda[$_GET['indice']])) {
 // Botón Confirmar Modificación Mueble
 // ===================================
 
-if (isset($_POST["confirmar"])) {
+if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
+
+    // La mitad mediante una instancia auxiliar del tipo de
+    // mueble, llamando a los métodos set
+    $muebleAux = clone $muebleSeleccionado; // Instancia auxiliar del mueble seleccionado
+
+    if (isset($_POST["nombre"])) {
+        if ($muebleAux->setNombre($_POST["nombre"])) {
+            $arrayDatosModificados["Nombre"] = $muebleAux->getNombre();
+        } else {
+            $arrayErroresMuebleModificado["Nombre"] = "Nombre no válido";
+        }
+    }
+
+    if (isset($_POST["fabricante"])) {
+        if ($muebleAux->setFabricante($_POST["fabricante"])) {
+            $arrayDatosModificados["Fabricante"] = $muebleAux->getFabricante();
+        } else {
+            $arrayErroresMuebleModificado["Fabricante"] = "Fabricante no válido";
+        }
+    }
+
+    if (isset($_POST["pais"])) {
+        if ($muebleAux->setPais($_POST["pais"])) {
+            $arrayDatosModificados["Pais"] = $muebleAux->getPais();
+        } else {
+            $arrayErroresMuebleModificado["Pais"] = "País no válido";
+        }
+    }
+
+    if (isset($_POST["anio"])) {
+        if ($muebleAux->setAnio(intval($_POST["anio"]))) {
+            $arrayDatosModificados["Anio"] = $muebleAux->getAnio();
+        } else {
+            $arrayErroresMuebleModificado["Anio"] = "Año no válido";
+        }
+    }
+
+    if (isset($_POST["fechaIniVenta"])) {
+        if ($muebleAux->setFechaIniVenta($_POST["fechaIniVenta"])) {
+            $arrayDatosModificados["FechaIniVenta"] = $muebleAux->getFechaIniVenta();
+        } else {
+            $arrayErroresMuebleModificado["FechaIniVenta"] = "Fecha de inicio no válida";
+        }
+    }
+
+    if (isset($_POST["fechaFinVenta"])) {
+        if ($muebleAux->setFechaFinVenta($_POST["fechaFinVenta"])) {
+            $arrayDatosModificados["FechaFinVenta"] = $muebleAux->getFechaFinVenta();
+        } else {
+            $arrayErroresMuebleModificado["FechaFinVenta"] = "Fecha de fin no válida";
+        }
+    }
+
+    if (isset($_POST["precio"])) {
+        if ($muebleAux->setPrecio(floatval($_POST["precio"]))) {
+            $arrayDatosModificados["Precio"] = $muebleAux->getPrecio();
+        } else {
+            $arrayErroresMuebleModificado["Precio"] = "Precio no válido";
+        }
+    }
+
+    // Mueble Reciclado
+    if (isset($_POST["porcentajeReciclado"])) {
+        if ($muebleAux->setPorcentajeReciclado(floatval($_POST["porcentajeReciclado"]))) {
+            $arrayDatosModificados["PorcentajeReciclado"] = $muebleAux->getPorcentajeReciclado();
+        } else {
+            $arrayErroresMuebleModificado["PorcentajeReciclado"] = "Porcentaje reciclado no válido";
+        }
+    }
+
+    // Mueble Tradicional
+    if (isset($_POST["peso"])) {
+        if ($muebleAux->setPeso(floatval($_POST["peso"]))) {
+            $arrayDatosModificados["Peso"] = $muebleAux->getPeso();
+        } else {
+            $arrayErroresMuebleModificado["Peso"] = "Peso no válido";
+        }
+    }
+
+    if (isset($_POST["serie"])) {
+        if ($muebleAux->setSerie($_POST["serie"])) {
+            $arrayDatosModificados["Serie"] = $muebleAux->getSerie();
+        } else {
+            $arrayErroresMuebleModificado["Serie"] = "Serie no válida";
+        }
+    }
+
+    // Si no hay errores
+    if (empty($arrayErroresMuebleModificado)) {
+        $muebleSeleccionado = $muebleAux;
+        $mueblesTienda[$indice] = $muebleAux;
+    }
 }
+
+// Si no hay errores, $correcto será true
+$correcto = isset($_POST["confirmar"]) && empty($arrayErroresMuebleModificado);
 
 //dibuja la plantilla de la vista
 inicioCabecera("MODIFICAR MUEBLE");
 cabecera();
 finCabecera();
 inicioCuerpo("MODIFICAR MUEBLE", $barraUbi);
-cuerpo($mueblesTienda, $muebleSeleccionado);  //llamo a la vista
+cuerpo($mueblesTienda, $muebleSeleccionado, $arrayDatosModificados, $arrayErroresMuebleModificado, $correcto);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -57,7 +155,7 @@ function cabecera()
 }
 
 //vista
-function cuerpo($mueblesTienda, $muebleSeleccionado)
+function cuerpo($mueblesTienda, $muebleSeleccionado, $arrayDatosModificados, $arrayErroresMuebleModificado, $correcto)
 {
     // Habrá un enlace a ir a Index.php que nos permitirá volver a la página principal
     echo '<a href="/index.php">← Volver a TIENDA</a><br>' . PHP_EOL;
@@ -67,11 +165,38 @@ function cuerpo($mueblesTienda, $muebleSeleccionado)
     <h3>Modificar mueble.</h3>
     <?php
 
+    // Si el mueble es nulo es que de alguna forma no se ha pasado por el boton del formulario
+    // asi que muestro un mensaje diciendo que no se ha seleccionado ningun mueble 
+    if ($muebleSeleccionado === null) {
+        echo "No se ha seleccionado ningún mueble" . PHP_EOL;
+    } else {
+        if ($correcto) { // Si no hay errores muestra el resumen
+            formulario($muebleSeleccionado, $arrayErroresMuebleModificado); // Mostrar formulario modificación
 
-    formulario($muebleSeleccionado); // Mostrar formulario modificación
+            echo "<br>" . PHP_EOL;
+
+            mostrarMuebles($arrayDatosModificados); // Mostrar el resumen del mueble modificado;
+        } else { // Si hay errores, vuelve a mostrar el formulario con los datos actualizados
+            formulario($muebleSeleccionado, $arrayErroresMuebleModificado); // Mostrar formulario modificación
+        }
+    }
 }
 
 // Aqui escribiremos las funciones
+
+/**
+ * Función que muestra los datos del mueble seleccionado en el formulario
+ *
+ * @param array $datos Array con los datos del mueble que se ha seleccionado
+ * 
+ * @return void No devuelve nada
+ */
+function mostrarMuebles(array $datos)
+{
+    foreach ($datos as $key => $value) {
+        echo $key . ": " . $value . "<br>" . PHP_EOL;
+    }
+}
 
 /**
  * Función que muestra el formulario de muebles. Depende del tipo de mueble
@@ -81,8 +206,17 @@ function cuerpo($mueblesTienda, $muebleSeleccionado)
  * 
  * @return void No devuelve nada
  */
-function formulario(MuebleBase $mueble): void
+function formulario(MuebleBase $mueble, array $errores): void
 {
+    if (!empty($errores)) { // Mostrar los errores
+        echo "<div class='error'>";
+        foreach ($errores as $clave => $error) {
+            echo "$clave => $error<br>" . PHP_EOL;
+        }
+        echo "</div>";
+    }
+
+
     if ($mueble instanceof MuebleReciclado) { // MuebleReciclado
     ?>
         <form action="" method="POST">

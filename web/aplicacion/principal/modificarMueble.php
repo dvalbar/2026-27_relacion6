@@ -56,7 +56,11 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["pais"])) {
         if ($muebleAux->setPais($_POST["pais"])) {
-            $arrayDatosModificados["Pais"] = mb_trim($muebleAux->getPais());
+            if (mb_trim($muebleAux->getPais()) === "") {
+                $arrayErroresMuebleModificado["Pais"] = "Introduce un país";
+            } else {
+                $arrayDatosModificados["Pais"] = mb_trim($muebleAux->getPais());
+            }
         } else {
             $arrayErroresMuebleModificado["Pais"] = "País no válido";
         }
@@ -114,7 +118,11 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["serie"])) {
         if ($muebleAux->setSerie($_POST["serie"])) {
-            $arrayDatosModificados["Serie"] = mb_trim($muebleAux->getSerie());
+            if (mb_trim($muebleAux->getSerie()) === "") {
+                $arrayErroresMuebleModificado["Serie"] = "Introduce una serie";
+            } else {
+                $arrayDatosModificados["Serie"] = mb_trim($muebleAux->getSerie());
+            }
         } else {
             $arrayErroresMuebleModificado["Serie"] = "Serie no válida";
         }

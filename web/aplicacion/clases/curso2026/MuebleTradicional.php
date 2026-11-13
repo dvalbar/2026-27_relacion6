@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Clase MuebleTradicional que hereda de MuebleBase.
+ * Representa muebles tradicionales e incluye propiedades como el peso y la serie.
+ * Esta clase no permite la creación de subclases (final).
+ */
 final class MuebleTradicional extends MuebleBase
 {
 
@@ -7,6 +12,19 @@ final class MuebleTradicional extends MuebleBase
     private float $_peso = 15;
     private string $_serie = "S01";
 
+    /**
+     * Constructor
+     *
+     * @param string $nombre Nombre del mueble
+     * @param string $fabricante Fabricante del mueble
+     * @param string $pais Pais donde se fabricó el mueble
+     * @param integer $anio Año de fabricación del mueble
+     * @param string $fechaIniVenta Fecha de inicio del mueble
+     * @param string $fechaFinVenta Fecha de fin de venta del mueble
+     * @param integer $precio Precio del mueble
+     * @param integer $peso Peso del mueble
+     * @param string $serie Número o nombre de serie del mueble
+     */
     function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30, float $peso = 15, string $serie = "S01")
     {
         parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio);
@@ -89,9 +107,9 @@ final class MuebleTradicional extends MuebleBase
     }
 
     /**
-     * toString
+     * toString - devuelve los datos en forma de cadena
      *
-     * @return string
+     * @return string Cadena con los datos
      */
     #[Override]
     function __toString(): string

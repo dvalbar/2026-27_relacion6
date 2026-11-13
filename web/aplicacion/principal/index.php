@@ -126,8 +126,13 @@ function cuerpo($mueblesTienda, $arrayDatos, $indiceSeleccionado)
  */
 function mostrarMuebles(array $datos)
 {
-    foreach ($datos as $key => $value) {
-        echo $key . ": " . $value . "<br>" . PHP_EOL;
+    echo "<h3>Resumen Mueble.</h3>" . PHP_EOL;
+    if (empty($datos)) {
+        echo "No se ha mostrado ningún mueble" . PHP_EOL;
+    } else {
+        foreach ($datos as $key => $value) {
+            echo $key . ": " . $value . "<br>" . PHP_EOL;
+        }
     }
 }
 
@@ -141,7 +146,7 @@ function mostrarMuebles(array $datos)
 function tabla(array $muebles): void
 {
 ?>
-    <table border="1">
+    <table class="tabla">
         <thead>
             <tr>
                 <th>Índice</th>

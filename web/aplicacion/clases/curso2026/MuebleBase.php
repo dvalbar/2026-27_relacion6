@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Clase MuebleReciclado que hereda de MuebleBase.
+ * Representa muebles fabricados con material reciclado e incluye el porcentaje correspondiente.
+ * Esta clase no permite la creación de subclases (final).
+ */
 abstract class MuebleBase
 {
     // Representa el número máximo de muebles que se pueden crear
@@ -29,6 +34,14 @@ abstract class MuebleBase
 
     /**
      * Constructor
+     *
+     * @param string $nombre Nombre del mueble
+     * @param string $fabricante Fabricante del mueble
+     * @param string $pais Pais donde se fabricó el mueble
+     * @param integer $anio Año de fabricación del mueble
+     * @param string $fechaIniVenta Fecha de inicio del mueble
+     * @param string $fechaFinVenta Fecha de fin de venta del mueble
+     * @param integer $precio Precio del mueble
      */
     public function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30)
     {
@@ -311,6 +324,11 @@ abstract class MuebleBase
     // Método damePropiedadesAdicionales. Será redefinido en las clases hijas y devolverá
     // un array con el nombre de las propiedades adicionales a la clase base. 
 
+    /**
+     * Devuelve un array con las propiedades adicionales de la clase.
+     * 
+     * @return array Array con el nombre de la propiedad adicional
+     */
     abstract function damePropiedadesAdicionales(): array; // Se redefine en las clases hijas
 
     // Método de clase puedeCrear que devuelve true si se pueden crear más instancias de la
@@ -385,6 +403,11 @@ abstract class MuebleBase
 
     // Al convertirse la instancia de mueble en cadena deben mostrarse las características.
 
+    /**
+     * toString - devuelve los datos en forma de cadena
+     *
+     * @return string Cadena con los datos
+     */
     public function __toString(): string
     {
         return "MUEBLE de clase " . get_class($this) . " con nombre " . $this->getNombre() . ", fabricante " . $this->getFabricante() .

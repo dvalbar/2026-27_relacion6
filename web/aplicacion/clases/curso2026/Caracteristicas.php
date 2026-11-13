@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Clase Caracteristicas.
+ * Gestiona características de forma dinámica para los muebles.
+ */
 class Caracteristicas implements Iterator // Implementar Iterator
 {
     private array $_misCaracteristicas = []; // Array donde se guardan las caracteristicas
@@ -117,16 +121,14 @@ class Caracteristicas implements Iterator // Implementar Iterator
     {
         if (array_key_exists($name, $this->_misCaracteristicas)) { // Si la propiedad ya existe se puede modificar
             $this->_misCaracteristicas[$name] = $value;
-        }
-        else { // Si no existe
+        } else { // Si no existe
             if ($this->_listaCerrada === true) { // Si la lista ya estaba cerrada salta una excepción
                 throw new Exception("No se pueden agregar más caracteristicas despues de agregar 'ULTIMA'");
-            }
-            else { // Si la lista sigue abierta pues se siguen introduciendo datos
+            } else { // Si la lista sigue abierta pues se siguen introduciendo datos
                 $this->_misCaracteristicas[$name] = $value;
 
                 // Pero si el dato es "ULTIMA" cerramos la lista para que no se puedan añadir más
-                if (mb_strtoupper($name) === "ULTIMA") { 
+                if (mb_strtoupper($name) === "ULTIMA") {
                     $this->_listaCerrada = true;
                 }
             }

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Clase MuebleReciclado que hereda de MuebleBase.
+ * Representa muebles fabricados con material reciclado e incluye el porcentaje correspondiente.
+ * Esta clase no permite la creación de subclases (final).
+ */
 final class MuebleReciclado extends MuebleBase
 {
 
@@ -8,6 +13,15 @@ final class MuebleReciclado extends MuebleBase
 
     /**
      * Constructor
+     *
+     * @param string $nombre Nombre del mueble
+     * @param string $fabricante Fabricante del mueble
+     * @param string $pais Pais donde se fabricó el mueble
+     * @param integer $anio Año de fabricación del mueble
+     * @param string $fechaIniVenta Fecha de inicio del mueble
+     * @param string $fechaFinVenta Fecha de fin de venta del mueble
+     * @param integer $precio Precio del mueble
+     * @param integer $porcentajeReciclado Porcentaje de reciclado del mueble
      */
     function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30, int $porcentajeReciclado = 10)
     {
@@ -61,9 +75,9 @@ final class MuebleReciclado extends MuebleBase
     }
 
     /**
-     * toString
+     * toString - devuelve los datos en forma de cadena
      *
-     * @return string
+     * @return string Cadena con los datos
      */
     #[Override]
     function __toString(): string

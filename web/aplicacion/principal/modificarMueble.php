@@ -135,9 +135,10 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
         }
     }
 
-    if (!empty($arrayErroresMuebleModificado)) {
-        $muebleSeleccionado = $muebleAux;
-        $mueblesTienda[$indice] = $muebleAux;
+    $muebleSeleccionado = $muebleAux; // El mueble que tenemos seleccionado se cambia por el nuevo modificado
+
+    if (empty($arrayErroresMuebleModificado)) {
+        $mueblesTienda[$indice] = $muebleAux; // Si todo esta bien se modifica el array de los muebles de la tienda
     }
 }
 
@@ -184,7 +185,7 @@ function cuerpo($muebleSeleccionado, $arrayDatosModificados, $arrayErroresMueble
             formulario($muebleSeleccionado, $arrayErroresMuebleModificado); // Mostrar formulario modificación
 
             echo "<br>" . PHP_EOL;
-
+            echo "<h3>Se ha modificado el mueble.</h3>";
             mostrarMuebles($arrayDatosModificados); // Mostrar el resumen del mueble modificado;
         } else { // Si hay errores, vuelve a mostrar el formulario con los datos actualizados
             formulario($muebleSeleccionado, $arrayErroresMuebleModificado); // Mostrar formulario modificación

@@ -5,15 +5,7 @@ $barraUbi =
     [
         [
             "nombre" => "Inicio",
-            "enlace" => "/index.php"
         ],
-        [
-            "nombre" => "Principal",
-            "enlace" => "/aplicacion/principal/index.php"
-        ],
-        [
-            "nombre" => "Tienda",
-        ]
     ];
 
 // Array donde se guardaran los distintos datos del formulario
@@ -35,6 +27,8 @@ $arrayDatos = [];
 
 // Ojo, al no trabajar con sesiones, al recargar la página no aparecerán los cambios en el
 // mueble que hemos modificado.
+
+$indiceSeleccionado = null; // Indice del select del formulario (NECESARIO PARA GUARDAR EL SELECT)
 
 if (isset($_POST["modificar"])) {
 
@@ -76,6 +70,8 @@ if (isset($_POST["mostrar"])) {
         foreach ($muebleSeleccionado->getCaracteristicas() as $key => $value) {
             $arrayDatos[$key] = $value;
         }
+
+        $indiceSeleccionado = $_POST["mueblesForm"];
     }
 }
 
@@ -84,7 +80,7 @@ inicioCabecera("TIENDA");
 cabecera();
 finCabecera();
 inicioCuerpo("TIENDA", $barraUbi);
-cuerpo($mueblesTienda, $arrayDatos);  //llamo a la vista
+cuerpo($mueblesTienda, $arrayDatos, $indiceSeleccionado);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -100,7 +96,7 @@ function cabecera()
 }
 
 //vista
-function cuerpo($mueblesTienda, $arrayDatos)
+function cuerpo($mueblesTienda, $arrayDatos, $indiceSeleccionado)
 {
 ?>
     <br>
@@ -111,7 +107,7 @@ function cuerpo($mueblesTienda, $arrayDatos)
 
     echo "<br>" . PHP_EOL;
 
-    formulario($mueblesTienda); // Mostrar formulario muebles
+    formulario($mueblesTienda, $indiceSeleccionado); // Mostrar formulario muebles
 
     echo "<br>" . PHP_EOL;
 
@@ -182,7 +178,7 @@ function tabla(array $muebles): void
  * 
  * @return void No devuelve nada
  */
-function formulario(array $muebles): void
+function formulario(array $muebles, $indice): void
 {
     // Un solo formulario con dos botones de envío (Mostrar Mueble y Modificar Mueble) y
     // un elemento para seleccionar el mueble sobre el que trabajar. Se usará un select
@@ -196,7 +192,11 @@ function formulario(array $muebles): void
             foreach ($muebles as $key => $mueble) {
                 $nombreMueble = $mueble->getNombre();
                 $tipoMueble = get_class($mueble);
-                echo "<option value='$key'>$key - $nombreMueble ($tipoMueble)</option>" . PHP_EOL;
+                if ($indice == $key) {
+                    echo "<option value='$key' selected>$key - $nombreMueble ($tipoMueble)</option>" . PHP_EOL;
+                } else {
+                    echo "<option value='$key'>$key - $nombreMueble ($tipoMueble)</option>" . PHP_EOL;
+                }
             }
             ?>
         </select>

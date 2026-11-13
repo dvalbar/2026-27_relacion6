@@ -1,6 +1,6 @@
 <?php
 
-class Caracteristicas implements Iterator
+class Caracteristicas implements Iterator // Implementar Iterator
 {
     private array $_misCaracteristicas = []; // Array donde se guardan las caracteristicas
     private int $_claveActual = 0; // Posición iterator

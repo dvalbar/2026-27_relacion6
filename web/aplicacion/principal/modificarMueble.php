@@ -8,10 +8,6 @@ $barraUbi =
             "enlace" => "/index.php"
         ],
         [
-            "nombre" => "Principal",
-            "enlace" => "/index.php"
-        ],
-        [
             "nombre" => "Modificar Mueble",
         ]
     ];
@@ -44,7 +40,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["nombre"])) {
         if ($muebleAux->setNombre($_POST["nombre"])) {
-            $arrayDatosModificados["Nombre"] = $muebleAux->getNombre();
+            $arrayDatosModificados["Nombre"] = mb_trim($muebleAux->getNombre());
         } else {
             $arrayErroresMuebleModificado["Nombre"] = "Nombre no válido";
         }
@@ -52,7 +48,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["fabricante"])) {
         if ($muebleAux->setFabricante($_POST["fabricante"])) {
-            $arrayDatosModificados["Fabricante"] = $muebleAux->getFabricante();
+            $arrayDatosModificados["Fabricante"] = mb_trim($muebleAux->getFabricante());
         } else {
             $arrayErroresMuebleModificado["Fabricante"] = "Fabricante no válido";
         }
@@ -60,7 +56,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["pais"])) {
         if ($muebleAux->setPais($_POST["pais"])) {
-            $arrayDatosModificados["Pais"] = $muebleAux->getPais();
+            $arrayDatosModificados["Pais"] = mb_trim($muebleAux->getPais());
         } else {
             $arrayErroresMuebleModificado["Pais"] = "País no válido";
         }
@@ -68,7 +64,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["anio"])) {
         if ($muebleAux->setAnio(intval($_POST["anio"]))) {
-            $arrayDatosModificados["Anio"] = $muebleAux->getAnio();
+            $arrayDatosModificados["Anio"] = intval($muebleAux->getAnio());
         } else {
             $arrayErroresMuebleModificado["Anio"] = "Año no válido";
         }
@@ -76,7 +72,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["fechaIniVenta"])) {
         if ($muebleAux->setFechaIniVenta($_POST["fechaIniVenta"])) {
-            $arrayDatosModificados["FechaIniVenta"] = $muebleAux->getFechaIniVenta();
+            $arrayDatosModificados["FechaIniVenta"] = mb_trim($muebleAux->getFechaIniVenta());
         } else {
             $arrayErroresMuebleModificado["FechaIniVenta"] = "Fecha de inicio no válida";
         }
@@ -84,7 +80,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["fechaFinVenta"])) {
         if ($muebleAux->setFechaFinVenta($_POST["fechaFinVenta"])) {
-            $arrayDatosModificados["FechaFinVenta"] = $muebleAux->getFechaFinVenta();
+            $arrayDatosModificados["FechaFinVenta"] = mb_trim($muebleAux->getFechaFinVenta());
         } else {
             $arrayErroresMuebleModificado["FechaFinVenta"] = "Fecha de fin no válida";
         }
@@ -92,7 +88,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["precio"])) {
         if ($muebleAux->setPrecio(floatval($_POST["precio"]))) {
-            $arrayDatosModificados["Precio"] = $muebleAux->getPrecio();
+            $arrayDatosModificados["Precio"] = floatval($muebleAux->getPrecio());
         } else {
             $arrayErroresMuebleModificado["Precio"] = "Precio no válido";
         }
@@ -100,8 +96,8 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     // Mueble Reciclado
     if (isset($_POST["porcentajeReciclado"])) {
-        if ($muebleAux->setPorcentajeReciclado(floatval($_POST["porcentajeReciclado"]))) {
-            $arrayDatosModificados["PorcentajeReciclado"] = $muebleAux->getPorcentajeReciclado();
+        if ($muebleAux->setPorcentajeReciclado(intval($_POST["porcentajeReciclado"]))) {
+            $arrayDatosModificados["PorcentajeReciclado"] = intval($muebleAux->getPorcentajeReciclado());
         } else {
             $arrayErroresMuebleModificado["PorcentajeReciclado"] = "Porcentaje reciclado no válido";
         }
@@ -110,7 +106,7 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
     // Mueble Tradicional
     if (isset($_POST["peso"])) {
         if ($muebleAux->setPeso(floatval($_POST["peso"]))) {
-            $arrayDatosModificados["Peso"] = $muebleAux->getPeso();
+            $arrayDatosModificados["Peso"] = floatval($muebleAux->getPeso());
         } else {
             $arrayErroresMuebleModificado["Peso"] = "Peso no válido";
         }
@@ -118,17 +114,14 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     if (isset($_POST["serie"])) {
         if ($muebleAux->setSerie($_POST["serie"])) {
-            $arrayDatosModificados["Serie"] = $muebleAux->getSerie();
+            $arrayDatosModificados["Serie"] = mb_trim($muebleAux->getSerie());
         } else {
             $arrayErroresMuebleModificado["Serie"] = "Serie no válida";
         }
     }
 
-    // Si no hay errores
-    if (empty($arrayErroresMuebleModificado)) {
-        $muebleSeleccionado = $muebleAux;
-        $mueblesTienda[$indice] = $muebleAux;
-    }
+    $muebleSeleccionado = $muebleAux;
+    $mueblesTienda[$indice] = $muebleAux;
 }
 
 // Si no hay errores, $correcto será true
@@ -139,7 +132,7 @@ inicioCabecera("MODIFICAR MUEBLE");
 cabecera();
 finCabecera();
 inicioCuerpo("MODIFICAR MUEBLE", $barraUbi);
-cuerpo($mueblesTienda, $muebleSeleccionado, $arrayDatosModificados, $arrayErroresMuebleModificado, $correcto);  //llamo a la vista
+cuerpo($muebleSeleccionado, $arrayDatosModificados, $arrayErroresMuebleModificado, $correcto);  //llamo a la vista
 finCuerpo();
 // **********************************************************
 
@@ -155,7 +148,7 @@ function cabecera()
 }
 
 //vista
-function cuerpo($mueblesTienda, $muebleSeleccionado, $arrayDatosModificados, $arrayErroresMuebleModificado, $correcto)
+function cuerpo($muebleSeleccionado, $arrayDatosModificados, $arrayErroresMuebleModificado, $correcto)
 {
     // Habrá un enlace a ir a Index.php que nos permitirá volver a la página principal
     echo '<a href="/index.php">← Volver a TIENDA</a><br>' . PHP_EOL;

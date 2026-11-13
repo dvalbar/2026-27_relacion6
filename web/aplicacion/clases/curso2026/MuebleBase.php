@@ -28,9 +28,7 @@ abstract class MuebleBase
     // máximo de instancias creadas no se debe permitir la creación (lanzar excepción).
 
     /**
-     * ===========
      * Constructor
-     * ===========
      */
     public function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30)
     {

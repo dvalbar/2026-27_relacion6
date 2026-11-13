@@ -8,10 +8,6 @@ $barraUbi =
             "enlace" => "/index.php"
         ],
         [
-            "nombre" => "Principal",
-            "enlace" => "/aplicacion/principal/pruebas.php"
-        ],
-        [
             "nombre" => "Pruebas",
         ]
     ];

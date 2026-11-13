@@ -50,7 +50,7 @@ $mueble4->anadirCaracteristicas("Baldas", 5, "Color", "Roble");
 $mueble5 = new MuebleTradicional("Armario", "Eiffel", "Francia", 2020, "01/03/2020", "31/12/2040", 280, 150, "S07");
 $mueble5->anadirCaracteristicas("Puertas", 3, "Espejo", true, "Color", "Blanco");
 
-// Array indexado con posiciones a partir de 1
+// Array indexado con posiciones a partir de 1 con los muebles de la tienda
 $mueblesTienda = [
     1 => $mueble1,
     2 => $mueble2,

@@ -100,10 +100,17 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
 
     // Mueble Reciclado
     if (isset($_POST["porcentajeReciclado"])) {
-        if ($muebleAux->setPorcentajeReciclado(intval($_POST["porcentajeReciclado"]))) {
-            $arrayDatosModificados["PorcentajeReciclado"] = intval($muebleAux->getPorcentajeReciclado());
+        $porcentaje = $_POST["porcentajeReciclado"];
+
+        if (filter_var($porcentaje, FILTER_VALIDATE_INT) !== false) {
+            $porcInt = intval($porcentaje);
+            if ($muebleAux->setPorcentajeReciclado($porcInt)) {
+                $arrayDatosModificados["PorcentajeReciclado"] = $porcInt;
+            } else {
+                $arrayErroresMuebleModificado["PorcentajeReciclado"] = "Porcentaje reciclado no válido";
+            }
         } else {
-            $arrayErroresMuebleModificado["PorcentajeReciclado"] = "Porcentaje reciclado no válido";
+            $arrayErroresMuebleModificado["PorcentajeReciclado"] = "Porcentaje reciclado debe ser un número entero";
         }
     }
 
@@ -128,8 +135,10 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
         }
     }
 
-    $muebleSeleccionado = $muebleAux;
-    $mueblesTienda[$indice] = $muebleAux;
+    if (!empty($arrayErroresMuebleModificado)) {
+        $muebleSeleccionado = $muebleAux;
+        $mueblesTienda[$indice] = $muebleAux;
+    }
 }
 
 // Si no hay errores, $correcto será true

@@ -25,6 +25,9 @@ abstract class MuebleBase
     // Definir una propiedad privada de tipo Caracteristicas.
     private Caracteristicas $_caracteristicas;
 
+    // Material
+    private Materiales $_material;
+
     // Constructor. Recibe valores para las propiedades teniendo en cuenta los posibles
     // valores por defecto, salvo el nombre que es obligatorio que se indique. Se deben asignar
     // los valores en las propiedades llamando a los métodos set correspondientes. Si la función
@@ -42,8 +45,9 @@ abstract class MuebleBase
      * @param string $fechaIniVenta Fecha de inicio del mueble
      * @param string $fechaFinVenta Fecha de fin de venta del mueble
      * @param integer $precio Precio del mueble
+     * @param integer $precio Material del mueble
      */
-    public function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30)
+    public function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30, int $material = 10)
     {
         $limite = 0;
 
@@ -63,6 +67,8 @@ abstract class MuebleBase
         $this->setPrecio($precio);
 
         $this->_caracteristicas = new Caracteristicas();
+
+        $this->setMaterial($material);
 
         self::$_mueblesCreados++;
     }
@@ -318,6 +324,52 @@ abstract class MuebleBase
     }
 
     /**
+     * Devuelve el material del nombre
+     *
+     * @return Materiales Devuelve el material del nombre
+     */
+    public function getMaterial(): Materiales
+    {
+        return $this->_material;
+    }
+
+    /**
+     * Devuelve la descripcion del material
+     *
+     * @return string Devuelve la descripcion del material
+     */
+    public function getMaterialDescripcion(): string
+    {
+        return $this->_material->descripcion();
+    }
+
+    /**
+     * setMaterial
+     *
+     * @param int $valorMaterial
+     * @return bool Devuelve true si cumple las restricciones, false en caso contrario
+     */
+    public function setMaterial(int $valorMaterial): bool
+    {
+        switch ($valorMaterial) {
+            case 5:
+                $this->_material = Materiales::MADERA;
+                return true;
+            case 10:
+                $this->_material = Materiales::HIERRO;
+                return true;
+            case 15:
+                $this->_material = Materiales::PLASTICO;
+                return true;
+            case 20:
+                $this->_material = Materiales::ACERO;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
      * MÉTODOS
      */
 
@@ -412,7 +464,8 @@ abstract class MuebleBase
     {
         return "MUEBLE de clase " . get_class($this) . " con nombre " . $this->getNombre() . ", fabricante " . $this->getFabricante() .
             ", fabricado en " . $this->getPais() . " a partir del año " . $this->getAnio() . ", vendido desde " . $this->getFechaIniVenta() .
-            " hasta " . $this->getFechaFinVenta() . ", precio " . $this->getPrecio() . ". Caracteristicas adicionales: " . $this->getCaracteristicas() . ". ";
+            " hasta " . $this->getFechaFinVenta() . ", precio " . $this->getPrecio() . ". Caracteristicas adicionales: " . $this->getCaracteristicas() .
+            ". De material " . $this->getMaterialDescripcion() . ". ";
     }
 
     // ===========================================================

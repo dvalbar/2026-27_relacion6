@@ -71,6 +71,8 @@ if (isset($_POST["mostrar"])) {
             $arrayDatos[$key] = $value;
         }
 
+        $arrayDatos["MaterialMueble"] = $muebleSeleccionado->getMaterialDescripcion();
+
         $indiceSeleccionado = $_POST["mueblesForm"];
     }
 }
@@ -155,6 +157,7 @@ function tabla(array $muebles): void
                 <th>Fabricante</th>
                 <th>País</th>
                 <th>Precio</th>
+                <th>Material</th> <!-- Material del mueble -->
             </tr>
         </thead>
         <tbody>
@@ -168,6 +171,7 @@ function tabla(array $muebles): void
                 echo "<td>" . $mueble->getFabricante() . "</td>" . PHP_EOL;
                 echo "<td>" . $mueble->getPais() . "</td>" . PHP_EOL;
                 echo "<td>" . $mueble->getPrecio() . " €</td>" . PHP_EOL;
+                echo "<td>" . $mueble->getMaterialDescripcion() . "</td>" . PHP_EOL; // Material del mueble
                 echo "</tr>" . PHP_EOL;
             }
             ?>

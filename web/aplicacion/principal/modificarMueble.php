@@ -98,6 +98,15 @@ if (isset($_POST["confirmar"]) && $muebleSeleccionado !== null) {
         }
     }
 
+    // Material
+    if (isset($_POST["material"])) {
+        if ($muebleAux->setMaterial($_POST["material"])) {
+            $arrayDatosModificados["MaterialMueble"] = mb_trim($muebleAux->getMaterialDescripcion());
+        } else {
+            $arrayErroresMuebleModificado["MaterialMueble"] = "Material no válido";
+        }
+    }
+
     // Mueble Reciclado
     if (isset($_POST["porcentajeReciclado"])) {
         $porcentaje = $_POST["porcentajeReciclado"];
@@ -259,6 +268,21 @@ function formulario(MuebleBase $mueble, array $errores): void
             <label for="">Precio: </label>
             <input name="precio" type="text" value="<?php echo $mueble->getPrecio() ?>">
             <br>
+            <!-- Material Mueble -->
+            <label for="">Material: </label>
+            <select name="material" id="">
+                <?php
+                $casos = $mueble->getMaterial()->casos();
+                $materialDelMuebleActual = $mueble->getMaterial()->valor();
+                foreach ($casos as $value) {
+                    if ($materialDelMuebleActual == $value->valor()) // Si coincide el material se le coloca "selected"
+                        echo "<option value=" . $value->valor() . " selected>" . $value->descripcion() . "</option>" . PHP_EOL;
+                    else
+                        echo "<option value=" . $value->valor() . ">" . $value->descripcion() . "</option>" . PHP_EOL;
+                }
+                ?>
+            </select>
+            <br>
             <!-- PorcentajeReciclado Mueble -->
             <label for="">Porcentaje Reciclado: </label>
             <input name="porcentajeReciclado" type="text" value="<?php echo $mueble->getPorcentajeReciclado() ?>">
@@ -296,6 +320,21 @@ function formulario(MuebleBase $mueble, array $errores): void
             <!-- Precio Mueble -->
             <label for="">Precio: </label>
             <input name="precio" type="text" value="<?php echo $mueble->getPrecio() ?>">
+            <br>
+            <!-- Material Mueble -->
+            <label for="">Material: </label>
+            <select name="material" id="">
+                <?php
+                $casos = $mueble->getMaterial()->casos();
+                $materialDelMuebleActual = $mueble->getMaterial()->valor();
+                foreach ($casos as $value) {
+                    if ($materialDelMuebleActual == $value->valor()) // Si coincide el material se le coloca "selected"
+                        echo "<option value=" . $value->valor() . " selected>" . $value->descripcion() . "</option>" . PHP_EOL;
+                    else
+                        echo "<option value=" . $value->valor() . ">" . $value->descripcion() . "</option>" . PHP_EOL;
+                }
+                ?>
+            </select>
             <br>
             <!-- Peso Mueble -->
             <label for="">Peso: </label>

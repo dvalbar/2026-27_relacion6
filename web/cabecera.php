@@ -14,7 +14,7 @@ else
 
 // Clases
 spl_autoload_register(function ($clase) {
-    $ruta = RUTABASE . "/scripts/clases/";
+    $ruta = RUTABASE . "/aplicacion/clases/curso2026/"; // Ruta donde se ubican nuestras clases
     $fichero = $ruta . "$clase.php";
 
     if (file_exists($fichero)) {
@@ -25,5 +25,36 @@ spl_autoload_register(function ($clase) {
 });
 
 include(RUTABASE . "/aplicacion/plantilla/plantilla.php");
+require_once(RUTABASE . "/scripts/librerias/validacion.php"); // Incluir libreria validacion.php
 
-//creo todos los objetos que necesita mi aplicación
+// Creo todos los objetos que necesita mi aplicación
+
+// Ya que no hemos visto todavía ningún método para almacenar datos de forma permanente, vamos
+// a definir un array indexado (posiciones a partir de 1) con 5 muebles
+// (MuebleReciclado/MuebleTradicional). Cada mueble tendrá al menos dos características adicionales
+// a las básicas. Definir este array en un único punto de forma que esté accesible en todas las páginas.
+
+// Muebles de la tienda
+$mueble1 = new MuebleReciclado("Silla", "FaMu:Antequera", "España", 2026, "01/01/2026", "31/12/2035", 39.99, 20, 15); // Añadido al final el material (int) 15 = Plastico
+$mueble1->anadirCaracteristicas("Color", "Verde", "Patas", 4);
+
+$mueble2 = new MuebleReciclado("Mesa", "FaMu:Eco", "Portugal", 2023, "15/03/2023", "31/12/2034", 120, 65, 20);
+$mueble2->anadirCaracteristicas("Material", "Palet", "Extensible", true);
+
+$mueble3 = new MuebleTradicional("Sofá", "FaMu:Pisa", "Italia", 2021, "01/06/2021", "31/12/2040", 450.5, 80, "S02", 5);
+$mueble3->anadirCaracteristicas("Plazas", 3, "Tapizado", "Terciopelo", "RellenoAsiento");
+
+$mueble4 = new MuebleTradicional("Estantería", "FaMu:GrupoSeys", "España", 2022, "01/01/2022", "31/12/2038", 95, 35.5, "S15", 10);
+$mueble4->anadirCaracteristicas("Baldas", 5, "Color", "Roble");
+
+$mueble5 = new MuebleTradicional("Armario", "Eiffel", "Francia", 2020, "01/03/2020", "31/12/2040", 280, 150, "S07", 20);
+$mueble5->anadirCaracteristicas("Puertas", 3, "Espejo", true, "Color", "Blanco");
+
+// Array indexado con posiciones a partir de 1 con los muebles de la tienda
+$mueblesTienda = [
+    1 => $mueble1,
+    2 => $mueble2,
+    3 => $mueble3,
+    4 => $mueble4,
+    5 => $mueble5
+];

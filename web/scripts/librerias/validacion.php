@@ -44,10 +44,10 @@ function validaEntero(int &$var, int $min, int $max, int $defecto): bool
 /**
  * Función validaReal() que comprueba que $var sea un número real entre un valor $min y $max.
  *
- * @param integer $var Número real a comprobar
- * @param integer $min Valor minimo
- * @param integer $max Valor máximo
- * @param integer $defecto Valor por defecto en caso de que no cumpla las condiciones
+ * @param float $var Número real a comprobar
+ * @param float $min Valor minimo
+ * @param float $max Valor máximo
+ * @param float $defecto Valor por defecto en caso de que no cumpla las condiciones
  * 
  * @return boolean Devuelve true si es correcto y false en caso contrario
  */
